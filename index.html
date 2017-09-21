@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+				<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+				<script type="text/javascript" src="renderjson.js"></script>
+				<script type="text/javascript" src="bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
+				<script type="text/javascript" src="lodash.min.js"></script>
+				<script type="text/javascript" src="modernizr.custom.23002.min.js"></script>
+				
+        <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"></script>
+        <meta charset="utf-8">
+        <title>Common Name Reverse Search</title>
+				<script type="text/javascript" src="common_names.js"></script>
+				
+				<script type="text/javascript" src="scripts.js"></script>
+        <link rel="stylesheet" href="styles.css"></script>
+				
+				<script type="text/javascript">
+					
+					function popupMessage(title,text) {
+						$("#popup_title").html(title);
+						$("#popup_content").html(text);
+						$("#modalPopup").modal("show");
+					}
+
+				</script>
+				
+				<style type="text/css">
+				
+					.tab-content {
+						margin-top: 50px;
+						padding: 20px;
+					}
+					
+					.navtab {
+						margin-top: 5px;
+					}
+					
+					.panel-title {
+						line-height: 25px;
+					}
+					
+					.panel-heading button {
+						float: right;
+						margin-left: 5px;
+					}
+				
+				</style>
+				
+    </head>
+    <body>
+
+		
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<!-- Nav tabs -->
+				<ul class="nav nav-pills" role="tablist">
+					<li class="navtab"><a href="#tabcontent1" role="tab" data-toggle="tab" id="tab1"><span class="glyphicon glyphicon-console"></span> JSON</a></li>
+					<li class="navtab active"><a href="#tabcontent2" role="tab" data-toggle="tab" id="tab2"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Wizard</a></li>
+					<li class="navtab"><a href="#tabcontent3" role="tab" data-toggle="tab" id="tab3" onclick=""><span class="glyphicon glyphicon-question-sign"></span> ?</a></li>
+
+			
+					
+					<!--<li role="presentation" class="navtab"><a href="admin.php" target="_blank" id="button1"><span class="glyphicon glyphicon-cog"></span></a></li>
+					
+					<li role="presentation" class="navtab dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" id="dropdown1">
+							<span class="glyphicon glyphicon-question-sign"></span> Dropdown <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#" onclick=""><span class="glyphicon glyphicon-pushpin"></span> item</a></li>
+							<li><a href="#" onclick=""><span class="glyphicon glyphicon-pushpin"></span> item</a></li>
+						</ul>
+					</li>-->
+
+				<form class="navbar-form navbar-right" id="searchForm" action="javascript:submitForm()">
+						<div class="form-group">
+						<select id="searchMaximum" class="form-control">
+							<option selected value="200" disabled>Limit</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+							<option value="100">100</option>
+							<option value="200">200</option>
+							<option value="500">500</option>
+							<option value="1000">1000</option>
+							<option value="2000">2000</option>
+							<option value="3000">3000</option>
+							<option value="4000">4000</option>
+							<option value="5000">5000</option>
+							<option value="10000">10000</option>
+						</select>
+						<input id="searchText" type="text" class="form-control" placeholder="Search">
+						</div>
+						<button id="searchButton" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+					</form>
+				
+				</ul>
+
+			</div><!-- /.container-fluid -->
+		</nav>
+				
+
+
+<!-- -------------------------------------------------- Tab Panes ------------------------------------------------- -->
+		<div class="tab-content">
+			
+			<div class="tab-pane" id="tabcontent1">
+				<!-- -------------------------------------------------- PANEL ------------------------------------------------- -->				
+					<div id="panel1" class="panel panel-primary">
+						<div class="panel-heading">
+							<h2 class="panel-title">
+								<span class="glyphicon glyphicon-console"></span> JSON
+							</h2>
+							
+						</div>
+						<div class="panel-body">
+							<p class="loader hidden" align="center"><img src="ajax-loader.gif" /></p>
+							<div class="" id="panelcontent1">
+							</div>
+						</div>
+							
+					</div>
+			</div>
+			
+			
+			<div class="tab-pane active" id="tabcontent2">
+				<div id="panel2" class="panel panel-primary">
+						<div class="panel-heading">
+							<h2 class="panel-title">
+								<span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Wizard
+							</h2>
+							
+						</div>
+						<div class="panel-body">
+							<p class="loader hidden" align="center"><img src="ajax-loader.gif" /></p>
+							<div class="" id="panelcontent2">
+
+								<div class="container-fluid" id="wizard_results">
+									<div class="row" id="wizard_results_kingdom"></div>
+									<div class="row" id="wizard_results_phylum"></div>
+									<div class="row" id="wizard_results_class"></div>
+									<div class="row" id="wizard_results_order"></div>
+									<div class="row" id="wizard_results_family"></div>
+									<div class="row" id="wizard_results_genus"></div>
+									<div class="row" id="wizard_results_sciNames"></div>
+								</div>
+
+							</div>
+						</div>
+							
+					</div>
+			</div>
+			
+			
+			<div class="tab-pane" id="tabcontent3">
+				<div id="panel3" class="panel panel-primary">
+						<div class="panel-heading">
+							<h2 class="panel-title">
+								<span class="glyphicon glyphicon-question-sign"></span> ?
+							</h2>
+							
+						</div>
+						<div class="panel-body">
+							<p class="loader hidden" align="center"><img src="ajax-loader.gif" /></p>
+							<div class="" id="panelcontent3"></div>
+						</div>
+							
+					</div>
+			</div>
+			
+		</div>
+
+
+<!-- -------------------------------------------------- Modals ------------------------------------------------- -->
+
+<!-- -------------------------------------------------- Error Modal ------------------------------------------------- -->		
+		<div id="modalPopup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 id="popup_title" class="modal-title" id="myModalLabel">Error</h4>
+					</div>
+					<div id="popup_content" class="modal-body">
+						...
+					</div>
+					<div class="modal-footer">
+						<p align="center"><button type="button" class="btn btn-default" data-dismiss="modal">OK</button></p>
+					</div>
+				</div>
+			</div>	
+		</div>
+
+		
+	</body>
+</html>
